@@ -1,8 +1,8 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
-  SignIn: undefined;
   SignUp: undefined;
+  SignIn: undefined;
 };
 
 type SignInScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>;

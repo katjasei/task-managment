@@ -17,8 +17,8 @@ export default function App() {
     <View style={styles.container}>
       <NavigationContainer>
     <Stack.Navigator>
-      <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} />
     </Stack.Navigator>
   </NavigationContainer>
     </View>
