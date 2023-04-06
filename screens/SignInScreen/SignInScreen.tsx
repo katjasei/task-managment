@@ -1,9 +1,9 @@
-import { auth } from '../../utils/firebase'
+import { app } from '../../utils/firebase'
 import { useState } from 'react';
 import { Button } from 'react-native';
 import { TextInput, View, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import { SignInScreenNavigationProp } from '../../types';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import image from '../../images/task-managment.jpg';
 
 type Props = {
@@ -15,7 +15,8 @@ const { width, height } = Dimensions.get('window');
 function SignInScreen({navigation}: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
- 
+  const auth = getAuth(app)
+
   const handleSignIn = () => {  
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {

@@ -1,10 +1,10 @@
-import { auth } from '../../utils/firebase'
+import { app } from '../../utils/firebase'
 import { useState } from 'react';
 import { Button } from 'react-native';
 import { TextInput, View, ImageBackground, Dimensions  } from 'react-native';
 import { SignUpScreenNavigationProp } from '../../types';
 import { StyleSheet } from 'react-native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import image from '../../images/task-managment.jpg';
 
 type Props = {
@@ -17,6 +17,7 @@ const { width, height } = Dimensions.get('window');
  function SignUpScreen( {navigation}: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const auth = getAuth(app)
 
   const handleSignUp = () => {
       createUserWithEmailAndPassword(auth, email, password)
