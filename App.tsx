@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SignInScreen from './screens/SignInScreen/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen/SignUpScreen';
 import {RootStackParamList} from './types';
+import TaskScreen from './screens/TaskForm/TaskScreen';
 
 export default function App() {
 
@@ -19,6 +20,7 @@ export default function App() {
     <Stack.Navigator>
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="TaskScreen" component={TaskScreen} />
     </Stack.Navigator>
   </NavigationContainer>
     </View>
