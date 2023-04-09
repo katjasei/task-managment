@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Task } from "../../models";
 import { View } from "react-native";
-import TaskDetails from "./components/TaskDetails";
+import TaskDetails from "../TaskDetailScreen/TaskDetails";
 import TaskList from "./components/TaskList";
 import TaskForm from "./TaskForm";
-import { app, db } from "../../utils/firebase";
+import { app,db } from "../../utils/firebase";
 import {addDoc, collection} from "firebase/firestore";
 
 const TaskScreen = () => {

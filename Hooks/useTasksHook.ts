@@ -24,8 +24,17 @@ const useTasks = () => {
     return unsubscribe;
   }, []);
 
+  const loadTasks = async () => {
+    const tasksCollection = collection(db, "tasks");
+    const tasksSnapshot = await getDocs(tasksCollection);
+    const tasksList = tasksSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return tasksList;
+  };
 
-  return { tasks, loading, error };
+  return { tasks, loading, error, loadTasks };
 };
 
 export default useTasks;

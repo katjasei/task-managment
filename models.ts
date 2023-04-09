@@ -5,3 +5,8 @@ export interface Task {
     completed: boolean;
     createdAt: Date
   }
+
+  export type FirestoreTask = { 
+    id: string;
+    task: Task;    
+   }  

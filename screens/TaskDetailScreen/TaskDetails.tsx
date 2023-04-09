@@ -1,5 +1,5 @@
 import { View, Text, Switch } from "react-native";
-import {Task} from "../../../models";
+import {Task} from "../../models";
 
 const TaskDetails = ({ task }: { task: Task }) => {
     return (
