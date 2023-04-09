@@ -1,9 +1,11 @@
 import { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import useTasks from "../../../Hooks/useTasksHook";
 import TaskListItem from "./TaskListItem";
-import {Task} from "../../../models";
+import { FirestoreTask } from "../../../models";
 import {TaskScreenNavigationProp} from "../../../types";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import {db} from "../../../utils/firebase";
 
 type TaskListProps = {
   navigation: TaskScreenNavigationProp;
@@ -18,14 +20,41 @@ type TaskListProps = {
       loadTasks();
     }, []);
 
-    const handlePress = (task: Task) => {
-      navigation.navigate('TaskDetails', { task });
+    
+    const onUpdateTask = async (task: FirestoreTask) => {
+      try {
+        await updateDoc(doc(db, 'tasks', task.id), {
+          task: {
+           ...task.task, 
+          completed: !task.task.completed
+        }
+        });
+        console.log('Task updated successfully');
+      } catch (error) {
+        console.error('Error updating task: ', error);
+      }
+    }
+
+    const onDeleteTask = async (task: FirestoreTask) => {
+      try {
+        await deleteDoc(doc(db, 'tasks', task.id));
+        console.log('Task deleted successfully');
+        navigation.goBack();
+      } catch (error) {
+        console.error('Error deleting task: ', error);
+      }
+    };
+    
+
+    const handlePress = (task: FirestoreTask) => {
+      navigation.navigate('TaskDetails', { task, onUpdateTask, onDeleteTask });
     };
   
     return (
       <View style= {styles.container}>
+        <Text style= {styles.titleText}>Task List</Text>
         {tasks.map((task) => (
-          <TaskListItem key={task.id} task={task.task} onPress={handlePress} />
+          <TaskListItem key={task.id} task={task} onPress={handlePress} />
         ))}
       </View>
     );
@@ -36,7 +65,7 @@ type TaskListProps = {
   const styles = StyleSheet.create({
     container: {
      // flex: 1,
-      backgroundColor: '#eee',
+      backgroundColor: '#111c2e',
     },
     title: {
       fontSize: 24,
@@ -49,6 +78,13 @@ type TaskListProps = {
       padding: 10,
       backgroundColor: '#6C63FF',
       borderRadius: 10,
+    },
+    titleText: {
+      color: '#fff',
+      fontSize: 25,
+      fontWeight: "bold",
+      textAlign: "center"
+
     },
     addButtonText: {
       color: '#fff',

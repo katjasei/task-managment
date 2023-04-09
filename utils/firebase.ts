@@ -3,7 +3,8 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    // your firebase config object
+
+    // firebase config object
     apiKey: "AIzaSyA1erpANR182UiRahkLz1J34iL8RxIMg-8",
     authDomain: "taskmanagment-5a6ee.firebaseapp.com",
     projectId: "taskmanagment-5a6ee",
