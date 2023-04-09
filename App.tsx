@@ -1,14 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { FirebaseApp, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import {useEffect} from 'react';
+import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignInScreen from './screens/SignInScreen/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen/SignUpScreen';
 import {RootStackParamList} from './types';
-import TaskScreen from './screens/TaskForm/TaskScreen';
+import TaskListScreen from './screens/TaskForm/TaskListScreen';
+import TaskForm from './screens/TaskForm/TaskForm';
+import TaskDetails from './screens/TaskDetailScreen/TaskDetails';
 
 export default function App() {
 
@@ -20,7 +18,9 @@ export default function App() {
     <Stack.Navigator>
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
-      <Stack.Screen name="TaskScreen" component={TaskScreen} />
+      <Stack.Screen name="TaskScreen" component={TaskListScreen} />
+      <Stack.Screen name="TaskForm" component={TaskForm} />
+      <Stack.Screen name="TaskDetails" component={TaskDetails} />
     </Stack.Navigator>
   </NavigationContainer>
     </View>

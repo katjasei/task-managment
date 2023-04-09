@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Button } from 'react-native';
 import {Task} from '../../models';
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../../types';
 
 
-interface TaskFormProps {
-  onSubmit: (task: Task) => void;
-}
+type TaskFormScreenProps = StackScreenProps<RootStackParamList, 'TaskForm'>;
 
-const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
+const TaskForm = ({route, navigation }: TaskFormScreenProps) => {
+
+  const { onSubmit } = route.params
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  const handleTaskSubmit = (task: Task) => {
+    if (onSubmit) {
+        onSubmit(task);
+    }
+};
 
   const handleSubmit = () => {
     const task: Task = {
@@ -19,7 +27,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
       completed: false,
       createdAt: new Date(),
     };
-    onSubmit(task);
+    handleTaskSubmit(task);
     setTitle('');
     setDescription('');
   };
