@@ -1,5 +1,5 @@
 import { TouchableOpacity , Text, StyleSheet } from "react-native";
-import { FirestoreTask, Task} from "../../../models";
+import { FirestoreTask } from "../../../models";
 
 type TaskListItemProps = {
     task: FirestoreTask

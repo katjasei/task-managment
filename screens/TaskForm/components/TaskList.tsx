@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { useEffect, useState } from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import useTasks from "../../../Hooks/useTasksHook";
 import TaskListItem from "./TaskListItem";
 import { FirestoreTask } from "../../../models";
 import {TaskScreenNavigationProp} from "../../../types";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import {db} from "../../../utils/firebase";
+import { db } from "../../../utils/firebase";
 
 type TaskListProps = {
   navigation: TaskScreenNavigationProp;
@@ -14,13 +14,25 @@ type TaskListProps = {
   const TaskList = ({navigation} : TaskListProps) => {
 
     const {tasks, loading, error, loadTasks } = useTasks()
+
+    const [showCompleted, setShowCompleted] = useState(false);
   
     useEffect(() => {
       // Load tasks from Firebase or other data source   
       loadTasks();
     }, []);
-
-    
+    const [filterStatus, setFilterStatus] = useState('all');
+    const [filteredTasks, setFilteredTasks] = useState<FirestoreTask[]>(tasks);
+  
+    useEffect(() => {
+      if (filterStatus === 'all') {
+        setFilteredTasks(tasks);
+      } else if (filterStatus === 'completed') {
+        setFilteredTasks(tasks.filter(task => task.task.completed));
+      } else if (filterStatus === 'not completed') {
+        setFilteredTasks(tasks.filter(task => !task.task.completed));
+      }
+    }, [tasks, filterStatus]);
     const onUpdateTask = async (task: FirestoreTask) => {
       try {
         await updateDoc(doc(db, 'tasks', task.id), {
@@ -53,7 +65,12 @@ type TaskListProps = {
     return (
       <View style= {styles.container}>
         <Text style= {styles.titleText}>Task List</Text>
-        {tasks.map((task) => (
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 20 }}>
+        <Text onPress={() => setFilterStatus('all')} style={{ color: filterStatus === 'all' ? '#6C63FF' : 'white', fontSize: 20 }}>All</Text>
+        <Text onPress={() => setFilterStatus('completed')} style={{ color: filterStatus === 'completed' ? '#6C63FF' : 'white', fontSize: 20 }}>Completed</Text>
+        <Text onPress={() => setFilterStatus('not completed')} style={{ color: filterStatus === 'not completed' ? '#6C63FF' : 'white', fontSize: 20 }}>Not completed</Text>
+      </View>
+        {filteredTasks.map((task) => (
           <TaskListItem key={task.id} task={task} onPress={handlePress} />
         ))}
       </View>
@@ -92,6 +109,17 @@ type TaskListProps = {
       fontWeight: 'bold',
       textAlign: 'center',
     },
+    filter: {
+      alignSelf: 'flex-start',
+      marginVertical: 16,
+    
+    },
+    filterText: {
+      color: '#fff',
+      fontSize: 20,
+      fontWeight: "bold"
+    },
+
   });
 
   export default TaskList

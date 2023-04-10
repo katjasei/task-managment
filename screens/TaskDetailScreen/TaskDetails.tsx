@@ -2,7 +2,6 @@ import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
 import {StackScreenProps} from "@react-navigation/stack";
 import {RootStackParamList} from "../../types";
 import {useState} from "react";
-import {Task} from "../../models";
 
 type TaskFormScreenProps = StackScreenProps<RootStackParamList, 'TaskDetails'>;
 
